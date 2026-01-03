@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+
+# LaTeX auxiliary files
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Generated files
+output.tex
+output.pdf
+
+# Versions folder (user data)
+versions/
+
+# Environment variables
+.env
+
+# macOS
+.DS_Store
+

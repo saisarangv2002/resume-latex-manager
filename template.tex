@@ -1,0 +1,183 @@
+%-------------------------
+% Resume in Latex - Simplified for compatibility
+% Based on Jake's Resume Template
+%------------------------
+
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[margin=0.5in]{geometry}
+\usepackage{titlesec}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{tabularx}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large\bfseries
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{1.0\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & \textbf{\small #2} \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemi{$\vcenter{\hbox{\tiny$\bullet$}}$}
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.0in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+%-------------------------------------------
+\hypersetup{
+	citecolor=magenta,
+	linkcolor=Mahogany,
+	urlcolor=Blue
+}
+
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    {\Huge \scshape ((( personal.name )))} \\ \vspace{1pt}
+    \small \href{mailto:((( personal.email )))}{\underline{((( personal.email )))}} $|$ 
+    \href{https://linkedin.com/in/((( personal.linkedin )))}{\underline{LinkedIn}} $|$
+    \href{((( personal.portfolio )))}{\underline{Portfolio}}
+    \vspace{-8pt}
+\end{center}
+
+((* for section in sections *))
+((* if section.enabled *))
+
+((* if section.id == 'education' *))
+%-----------EDUCATION-----------
+((* set enabled_edu = education | selectattr('enabled') | list *))
+((* if enabled_edu *))
+\section{Education}
+  \resumeSubHeadingListStart
+((* for edu in enabled_edu *))
+    \resumeSubheading
+      {((( edu.institution )))}{((( edu.date )))}
+      {\parbox[t]{0.8\textwidth}{%
+        ((( edu.degree ))), GPA - ((( edu.gpa ))) \\
+        \small{\textbf{Coursework:} ((( edu.coursework )))}
+      }}{((( edu.location )))}
+((* endfor *))
+  \resumeSubHeadingListEnd
+((* endif *))
+
+((* elif section.id == 'projects' *))
+%-----------PROJECTS-----------
+((* set projects = blocks | selectattr('type', 'equalto', 'project') | selectattr('enabled') | list *))
+((* if projects *))
+\section{Projects}
+  \resumeSubHeadingListStart
+((* for item in projects *))
+  \resumeSubheading
+  {((( item.title )))}{((( item.date )))}
+  {((( item.organization )))}{((( item.location )))}
+  \resumeItemListStart
+((* for bullet in item.description *))
+    \resumeItem{((( bullet )))}
+((* endfor *))
+  \resumeItemListEnd
+((* endfor *))
+  \resumeSubHeadingListEnd
+\vspace{-16pt}
+((* endif *))
+
+((* elif section.id == 'experience' *))
+%-----------EXPERIENCE-----------
+((* set experiences = blocks | selectattr('type', 'equalto', 'experience') | selectattr('enabled') | list *))
+((* if experiences *))
+\section{Work Experience}
+  \resumeSubHeadingListStart
+((* for item in experiences *))
+  \resumeSubheading
+  {((( item.title )))}{((( item.date )))}
+  {((( item.organization )))}{((( item.location )))}
+  \resumeItemListStart
+((* for bullet in item.description *))
+    \resumeItem{((( bullet )))}
+((* endfor *))
+  \resumeItemListEnd
+((* endfor *))
+  \resumeSubHeadingListEnd
+\vspace{-16pt}
+((* endif *))
+
+((* elif section.id == 'publications' *))
+%-----------PUBLICATIONS-----------
+((* set enabled_pubs = publications | selectattr('enabled') | list *))
+((* if enabled_pubs *))
+\section{Preprint Publications}
+    \begin{itemize}[itemsep=-1pt, parsep=3pt]
+((* for pub in enabled_pubs *))
+        \item\small \textbf{((( pub.authors )))}. \textbf{((( pub.title )))}, ((( pub.venue ))) [\href{((( pub.link )))}{\color{blue}{Link}}]
+((* endfor *))
+    \end{itemize}
+((* endif *))
+
+((* elif section.id == 'leadership' *))
+%-----------LEADERSHIP-----------
+((* set enabled_leadership = leadership | selectattr('enabled') | list *))
+((* if enabled_leadership *))
+\section{Leadership and Extracurriculars}
+    \begin{itemize}[itemsep=-5pt, parsep=3pt]
+((* for lead in enabled_leadership *))
+        \item \textit{((( lead.text )))}
+((* endfor *))
+    \end{itemize}
+ \vspace{-16pt}
+((* endif *))
+
+((* elif section.id == 'skills' *))
+%-----------TECHNICAL SKILLS-----------
+\section{Technical Skills}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+((* if skills is mapping *))
+     \textbf{Software}{: ((( skills.software )))}   \\ \textbf{Tools}{: ((( skills.tools )))} \\
+     \textbf{Fabrication}{: ((( skills.fabrication )))} \\
+((* else *))
+((* for skill in skills *))
+     \textbf{((( skill.name )))}{: ((( skill.content )))} ((* if not loop.last *))\\((* endif *))
+((* endfor *))
+((* endif *))
+    }}
+ \end{itemize}
+ \vspace{-16pt}
+
+((* endif *))
+((* endif *))
+((* endfor *))
+
+\end{document}
