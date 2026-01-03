@@ -53,12 +53,12 @@ def check_authentication():
         st.warning("No config.yaml found. Running without authentication.")
         return True
     
+    # Updated API - no pre_authorized parameter
     authenticator = stauth.Authenticate(
         config['credentials'],
         config['cookie']['name'],
         config['cookie']['key'],
-        config['cookie']['expiry_days'],
-        config.get('preauthorized', {})
+        config['cookie']['expiry_days']
     )
     
     # Login widget

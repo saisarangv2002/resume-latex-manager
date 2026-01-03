@@ -1,13 +1,13 @@
 credentials:
   usernames:
-    # Add your friends here - passwords are hashed
     # Default demo account: demo / demo123
     demo:
       email: demo@example.com
       name: Demo User
       password: $2b$12$YJQqoRH7w3j7r.YqGvJKE.cCKKqVL8BxjE0Y5MgF2HVPBXD6jMfAO
     
-    # Example: Add a friend
+    # Add your friends here using add_user.py script
+    # Example:
     # friend1:
     #   email: friend1@example.com
     #   name: Friend Name
@@ -17,8 +17,3 @@ cookie:
   expiry_days: 30
   key: resume_latex_interface_secret_key_change_me
   name: resume_auth_cookie
-
-preauthorized:
-  emails:
-    - demo@example.com
-
