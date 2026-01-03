@@ -78,7 +78,7 @@ def check_authentication():
         st.markdown("""
         **Demo Account:**
         - Username: `demo`
-        - Password: `demo123`
+        - Password: `password`
         """)
         return False
 
