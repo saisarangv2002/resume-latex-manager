@@ -25,9 +25,8 @@ from utils import (
     move_block,
 )
 
-# Authentication setup
-# Set to True to always require login, or use environment variable
-ENABLE_AUTH = os.environ.get("ENABLE_AUTH", "true").lower() == "true"
+# Authentication setup - disabled by default
+ENABLE_AUTH = False
 
 def load_auth_config():
     """Load authentication configuration."""
