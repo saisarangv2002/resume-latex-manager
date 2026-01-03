@@ -26,7 +26,8 @@ from utils import (
 )
 
 # Authentication setup
-ENABLE_AUTH = os.environ.get("ENABLE_AUTH", "false").lower() == "true"
+# Set to True to always require login, or use environment variable
+ENABLE_AUTH = os.environ.get("ENABLE_AUTH", "true").lower() == "true"
 
 def load_auth_config():
     """Load authentication configuration."""
