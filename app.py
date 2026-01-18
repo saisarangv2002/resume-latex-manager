@@ -974,18 +974,27 @@ def render_block_card(block: dict, index: int, total: int, key_prefix: str) -> d
                 variants[selected_variant] = new_bullets
                 block['variants'] = variants
                 block['description'] = variants.get(block['active_variant'], [])
+                save_resume_data(st.session_state.data)
                 st.rerun()
+                return {"action": "none", "block": block}  # Safety return
             
             # Add new bullet button
             if st.button("➕ Add Bullet", key=f"add_bullet_{block_key}", use_container_width=True):
-                # Add a placeholder bullet that won't be filtered
-                variants[selected_variant] = new_bullets + ["New bullet point - edit me"]
+                # Add a placeholder bullet
+                updated_bullets = new_bullets + ["New bullet point - edit me"]
+                variants[selected_variant] = updated_bullets
                 block['variants'] = variants
                 block['description'] = variants.get(block['active_variant'], [])
+                save_resume_data(st.session_state.data)
                 st.rerun()
+                return {"action": "none", "block": block}  # Safety return
             
-            # Update variants with edited bullets (keep all non-empty)
-            final_bullets = [b for b in new_bullets if b.strip()]
+            # Update variants with edited bullets (keep non-empty ones)
+            # Only filter out completely empty bullets, preserve those being edited
+            final_bullets = []
+            for b in new_bullets:
+                if b.strip():
+                    final_bullets.append(b)
             variants[selected_variant] = final_bullets
             block['variants'] = variants
             
