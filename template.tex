@@ -161,20 +161,29 @@
 
 ((* elif section.id == 'skills' *))
 %-----------TECHNICAL SKILLS-----------
+((* if skills is mapping *))
 \section{Technical Skills}
  \begin{itemize}[leftmargin=0.15in, label={}]
     \small{\item{
-((* if skills is mapping *))
      \textbf{Software}{: ((( skills.software )))}   \\ \textbf{Tools}{: ((( skills.tools )))} \\
      \textbf{Fabrication}{: ((( skills.fabrication )))} \\
-((* else *))
-((* for skill in skills *))
-     \textbf{((( skill.name )))}{: ((( skill.content )))} ((* if not loop.last *))\\((* endif *))
-((* endfor *))
-((* endif *))
     }}
  \end{itemize}
  \vspace{-16pt}
+((* else *))
+((* set enabled_skills = skills | selectattr('enabled') | list *))
+((* if enabled_skills *))
+\section{Technical Skills}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+((* for skill in enabled_skills *))
+     \textbf{((( skill.name )))}{: ((( skill.content )))} ((* if not loop.last *))\\((* endif *))
+((* endfor *))
+    }}
+ \end{itemize}
+ \vspace{-16pt}
+((* endif *))
+((* endif *))
 
 ((* endif *))
 ((* endif *))

@@ -264,17 +264,20 @@
     {
       "id": "skill-1",
       "name": "Software",
-      "content": "Solidworks, Ansys, Autodesk Fusion, C++, Computer Vision"
+      "content": "Solidworks, Ansys, Autodesk Fusion, C++, Computer Vision",
+      "enabled": true
     },
     {
       "id": "skill-2",
       "name": "Tools",
-      "content": "DFM, FEA, CFD, Mechatronics, Topology Optimization, Generative Design, Lean Six Sigma White Belt"
+      "content": "DFM, FEA, CFD, Mechatronics, Topology Optimization, Generative Design, Lean Six Sigma White Belt",
+      "enabled": true
     },
     {
       "id": "skill-4",
       "name": "Fabrication",
-      "content": "Prototyping, 3D Printing, Machining, Laser Cutting, Design of Experiments, Compliant Mechanisms"
+      "content": "Prototyping, 3D Printing, Machining, Laser Cutting, Design of Experiments, Compliant Mechanisms",
+      "enabled": true
     }
   ],
   "sections": [

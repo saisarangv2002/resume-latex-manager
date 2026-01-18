@@ -946,6 +946,9 @@ def render_block_card(block: dict, index: int, total: int, key_prefix: str) -> d
             # Edit bullets for selected variant
             st.markdown(f"**Bullets for '{selected_variant}':**")
             bullets = variants.get(selected_variant, [])
+            
+            # Track bullets to delete
+            bullets_to_delete = []
             new_bullets = []
             
             for i, bullet in enumerate(bullets):
@@ -961,14 +964,29 @@ def render_block_card(block: dict, index: int, total: int, key_prefix: str) -> d
                     new_bullets.append(new_bullet)
                 with col_del:
                     if st.button("🗑️", key=f"del_bullet_{block_key}_{selected_variant}_{i}"):
-                        pass
+                        bullets_to_delete.append(i)
+            
+            # Process deletions
+            if bullets_to_delete:
+                for idx in sorted(bullets_to_delete, reverse=True):
+                    if idx < len(new_bullets):
+                        new_bullets.pop(idx)
+                variants[selected_variant] = new_bullets
+                block['variants'] = variants
+                block['description'] = variants.get(block['active_variant'], [])
+                st.rerun()
             
             # Add new bullet button
             if st.button("➕ Add Bullet", key=f"add_bullet_{block_key}", use_container_width=True):
-                new_bullets.append("")
+                # Add a placeholder bullet that won't be filtered
+                variants[selected_variant] = new_bullets + ["New bullet point - edit me"]
+                block['variants'] = variants
+                block['description'] = variants.get(block['active_variant'], [])
+                st.rerun()
             
-            # Update variants with edited bullets
-            variants[selected_variant] = [b for b in new_bullets if b.strip()]
+            # Update variants with edited bullets (keep all non-empty)
+            final_bullets = [b for b in new_bullets if b.strip()]
+            variants[selected_variant] = final_bullets
             block['variants'] = variants
             
             # For backwards compatibility, also update description with active variant
@@ -1220,8 +1238,25 @@ def render_skills_section():
     
     # Render each skill category
     for i, skill in enumerate(skills):
-        with st.expander(f"📂 {skill.get('name', 'Category')}", expanded=True):
-            col_name, col_del = st.columns([5, 1])
+        # Ensure enabled field exists
+        if 'enabled' not in skill:
+            skill['enabled'] = True
+        
+        is_enabled = skill.get('enabled', True)
+        expander_label = f"📂 {skill.get('name', 'Category')}" + (" ✓" if is_enabled else " ○")
+        
+        with st.expander(expander_label, expanded=True):
+            col_toggle, col_name, col_del = st.columns([1, 4, 1])
+            
+            with col_toggle:
+                new_enabled = st.toggle(
+                    "Enable",
+                    value=is_enabled,
+                    key=f"skill_toggle_{i}",
+                    label_visibility="collapsed"
+                )
+                skill['enabled'] = new_enabled
+            
             with col_name:
                 new_name = st.text_input(
                     "Category Name",
@@ -1230,8 +1265,8 @@ def render_skills_section():
                     placeholder="e.g., Programming Languages"
                 )
                 skill['name'] = new_name
+            
             with col_del:
-                st.markdown("<div style='height: 28px'></div>", unsafe_allow_html=True)
                 if st.button("🗑️", key=f"del_skill_{i}", help="Delete category"):
                     skills.pop(i)
                     st.rerun()
@@ -1241,7 +1276,8 @@ def render_skills_section():
                 value=skill.get('content', ''),
                 key=f"skill_content_{i}",
                 height=80,
-                placeholder="Comma-separated skills..."
+                placeholder="Comma-separated skills...",
+                disabled=not is_enabled
             )
             skill['content'] = new_content
     
